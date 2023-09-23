@@ -1,6 +1,6 @@
 ---
 - name: Install qemu-guest-agent package
-  hosts: all
+  hosts: debian
   become: true
   become_method: sudo
   tasks:
