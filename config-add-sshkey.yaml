@@ -1,6 +1,6 @@
 ---
 - name: add ssh key
-  hosts: debian:rocky
+  hosts: debian
   become: yes
   tasks:
   - name: install public keys
