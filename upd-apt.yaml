@@ -1,6 +1,6 @@
 ---
 - name: Update and upgrade apt packages
-  hosts: debian:rocky
+  hosts: dubuntu
   become: true
   become_method: sudo
   tasks:
