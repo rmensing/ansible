@@ -2,6 +2,7 @@
 - name: Add SSH key to remote hosts
   hosts: ubuntu
   become: yes  # This enables privilege escalation
+  become_method: sudo
   vars:
     ssh_key: "{{ lookup('env', 'SSH_PUBLIC_KEY') }}"  # You'll set this in Semaphore environment
 
