@@ -1,29 +1,17 @@
 ---
-- name: Add SSH key to remote hosts
+- name: add ssh key
   hosts: ubuntu
-  become: yes  # This enables privilege escalation
-  become_method: sudo
-  vars:
-    ssh_key: "{{ lookup('env', 'SSH_PUBLIC_KEY') }}"  # You'll set this in Semaphore environment
-
+  become: yes
   tasks:
-    - name: Ensure .ssh directory exists
-      file:
-        path: "/home/{{ ansible_user }}/.ssh"
-        state: directory
-        mode: '0700'
-        owner: "{{ ansible_user }}"
-        group: "{{ ansible_user }}"
-
-    - name: Add SSH public key
-      authorized_key:
-        user: "{{ ansible_user }}"
-        state: present
-        key: "{{ ssh_key }}"
-        
-    - name: Ensure correct permissions on .ssh/authorized_keys
-      file:
-        path: "/home/{{ ansible_user }}/.ssh/authorized_keys"
-        mode: '0600'
-        owner: "{{ ansible_user }}"
-        group: "{{ ansible_user }}"
+  - name: install public keys
+    ansible.posix.authorized_key:
+      user: "{{ lookup('env','USER') }}"
+      state: present
+      key: "{{ lookup('file', '~/.ssh/id_rsa.pub') }}"
+  - name: change sudoers file
+    lineinfile:
+      path: /etc/sudoers
+      state: present
+      regexp: '^%sudo'
+      line: '%sudo ALL=(ALL) NOPASSWD: ALL'
+      validate: /usr/sbin/visudo -cf %s
