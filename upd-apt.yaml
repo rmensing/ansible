@@ -1,6 +1,6 @@
 ---
 - name: Update and upgrade apt packages
-  hosts: dubuntu
+  hosts: ubuntu
   become: true
   become_method: sudo
   tasks:
