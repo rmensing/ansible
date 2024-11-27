@@ -1,6 +1,6 @@
 ---
 - name: Install qemu-guest-agent package
-  hosts: dguest-vm
+  hosts: guest-vm
   become: true
   become_method: sudo
   tasks:
